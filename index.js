@@ -5,6 +5,7 @@ const Trigger = require("@saltcorn/data/models/trigger");
 const { check_install, run_docling } = require("./cmds");
 const tmp = require("tmp-promise");
 const fsp = require("fs").promises;
+const { htmlToText } = require('html-to-text');
 
 const blurb = `Installation instructions: please make sure that you have python installed and are able to 
 create virtual environments. On Debian/Ubuntu, run <code>sudo apt install python3-venv</code>. <br>Click "Finish" below to start installation if it is not already installed `;
@@ -60,7 +61,7 @@ const docling_html_to_markdown = {
 module.exports = {
   sc_plugin_api_version: 1,
   configuration_workflow,
-  functions: () => ({ docling_file_to_markdown, docling_html_to_markdown }),
+  functions: () => ({ docling_file_to_markdown, docling_html_to_markdown, htmlToText }),
   actions: () => ({
     docling_to_markdown: {
       requireRow: true,
