@@ -5,7 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "@saltcorn/data": "^0.9.0",
-    "env-paths": "2.2.0"
+    "env-paths": "2.2.0",
+    "tmp-promise": "3.0.3"
   },
   "author": "Tom Nielsen",
   "license": "MIT",

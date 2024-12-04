@@ -11,6 +11,9 @@ const asyncSpawn = (cmd, args, opts = { stdio: "inherit" }) => {
       child.stdout.on("data", (data) => {
         outs.push(data);
       });
+      child.stderr.on("data", (data) => {
+        console.error(data.toString());
+      });
     }
     child.on("exit", (exitCode, signal) => {
       if (exitCode === 0) resolve(outs.join(""));
@@ -35,7 +38,7 @@ const run_docling = async (src_file) => {
   return await asyncSpawn(
     `${pyEnvPath}/bin/python`,
     [path.join(__dirname, "run_docling.py"), src_file],
-    { stdi: "pipe" }
+    { stdio: "pipe" }
   );
 };
 
