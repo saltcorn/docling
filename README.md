@@ -20,3 +20,6 @@ The module also provides two functions `docling_file_to_markdown` and `docling_h
 docling_file_to_markdown takes a string containing a file path in your file store and produces markdown
 
 docling_html_to_markdown takes a string containing HTML (this should be a full document with DOCTYPE) and produces markdown.
+
+This module also exports the function `htmlToText` which is the `htmlToText`
+(alias for `convert`) from the [html-to-text module](https://www.npmjs.com/package/html-to-text) 
