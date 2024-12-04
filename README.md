@@ -19,4 +19,4 @@ The module also provides two functions `docling_file_to_markdown` and `docling_h
 
 docling_file_to_markdown takes a string containing a file path in your file store and produces markdown
 
-docling_html_to_markdown takes a string containing HTML and produces markdown.
+docling_html_to_markdown takes a string containing HTML (this should be a full document with DOCTYPE) and produces markdown.
