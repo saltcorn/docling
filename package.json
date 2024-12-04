@@ -1,6 +1,6 @@
 {
   "name": "@saltcorn/docling",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "onvert document files (PDF, DOCX, PPTX) to Markdown",
   "main": "index.js",
   "dependencies": {
