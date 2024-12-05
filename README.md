@@ -21,5 +21,15 @@ docling_file_to_markdown takes a string containing a file path in your file stor
 
 docling_html_to_markdown takes a string containing HTML (this should be a full document with DOCTYPE) and produces markdown.
 
-This module also exports the function `htmlToText` which is the `htmlToText`
-(alias for `convert`) from the [html-to-text module](https://www.npmjs.com/package/html-to-text) 
+This module also export two other functions to generate text from HTML:
+
+The function `htmlToText` which is the `htmlToText`
+(alias for `convert`) from the [html-to-text module](https://www.npmjs.com/package/html-to-text). This generates text (not markdown) froma single argument which is an html string.
+
+The function `turndown_html_to_markdown` uses the [turndown](https://www.npmjs.com/package/turndown) module to generate markdown from HTML. It takes two arguments, the first is an HTML string, and the second is optional, an object with the [turndown options](https://github.com/mixmark-io/turndown?tab=readme-ov-file#options)
+
+Example for run_js_code action:
+```
+const md = turndown_html_to_markdown(`<h1>Hello</h1>world`)
+console.log(md)
+```
