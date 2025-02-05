@@ -13,7 +13,12 @@ const pyEnvPath = envPaths("saltcorn-docling-env", { suffix: "" }).data;
 const blurb = `<p>Installation instructions: please make sure that you have python installed and are able to 
 create virtual environments. On Debian/Ubuntu, run <code>sudo apt install python3-venv</code>.</p> 
 <p>Click "Finish" below to start installation if it is not already installed. This will install docling in the following directory:
-<code>${pyEnvPath}</code></p>`;
+<code>${pyEnvPath}</code></p>
+<p>Alternatively, you can install manually with:<p>
+<code><pre>
+python -m venv $HOME/.local/share/saltcorn-docling-env
+$HOME/.local/share/saltcorn-docling-env/bin/pip install docling
+</pre></code>`;
 
 const configuration_workflow = () =>
   new Workflow({
