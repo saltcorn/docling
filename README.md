@@ -9,6 +9,18 @@ Before the actions can run the module needs to install docling in a new python v
 
 In order to install the virtual environment, configure the Saltcorn docling module. You will see a short message about this installation requirement and then click finish to perform the actual installation. 
 
+### Manual installation
+
+This module will look for a working python venv with docling installed in the saltcorn-docling-env direcotry inside the XDG data directory.
+On Debain/Ubuntu this resolves to `$HOME/.local/share/saltcorn-docling-env` where `$HOME` is the home directory of the 
+user running Saltcorn. You can check by running `systemd-path user-shared`. To create this manually (i.e. without configuring the module through the 
+Saltcorn UI), run these commands:
+
+```
+python -m venv $HOME/.local/share/saltcorn-docling-env
+$HOME/.local/share/saltcorn-docling-env/bin/pip install docling
+```
+
 ### Action Usage
 
 To use this module, create a table that has a file field (which will contain the source documents) and a string or markdown field (which will be set to the output of the source documents in markdown format). The link the action `docling_to_markdown` to a button or to a table trigger on this table. In the configuration for this action you should choose the appropriate fields. Running the action will then perform the conversion and set the contents of the string or markdown field.
