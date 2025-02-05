@@ -6,6 +6,7 @@ const { check_install, run_docling } = require("./cmds");
 const tmp = require("tmp-promise");
 const fsp = require("fs").promises;
 const { htmlToText } = require("html-to-text");
+const { eval_expression } = require("@saltcorn/data/models/expression");
 const TurndownService = require("turndown");
 const envPaths = require("env-paths");
 const pyEnvPath = envPaths("saltcorn-docling-env", { suffix: "" }).data;
@@ -91,7 +92,26 @@ module.exports = {
   actions: () => ({
     docling_to_markdown: {
       requireRow: true,
-      configFields: ({ table }) => {
+      configFields: ({ table, mode }) => {
+        if (mode === "workflow")
+          return [
+            {
+              name: "filepath",
+              label: "Filepath",
+              sublabel: "Expression for the file path in the file store",
+              type: "String",
+              class: "validate-expression",
+              required: true,
+            },
+            {
+              name: "md_var",
+              label: "Markdown variable",
+              sublabel: "Output variable will be set to markdown content",
+              type: "String",
+              required: true,
+            },
+          ];
+
         if (table) {
           const fileFields = table.fields
             .filter((f) => f.type === "File")
@@ -122,10 +142,26 @@ module.exports = {
           ];
         }
       },
-      run: async ({ row, table, configuration: { file_field, md_field } }) => {
-        const file = await File.findOne(row[file_field]);
+      run: async ({
+        row,
+        table,
+        configuration: { file_field, md_field, md_var, filepath },
+        mode,
+        user,
+      }) => {
+        let file;
+        if (mode === "workflow") {
+          const fp = eval_expression(
+            filepath,
+            row,
+            user,
+            "get_embedding text formula"
+          );
+          file = await File.findOne(fp);
+        } else file = await File.findOne(row[file_field]);
         const raw_out = await run_docling(file.location);
         const md = raw_out.split("---saltcorn-docling-markdown-below---\n")[1];
+        if (mode === "workflow") return { [md_var]: md };
         await table.updateRow({ [md_field]: md }, row[table.pk_name]);
       },
     },
