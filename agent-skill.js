@@ -49,12 +49,6 @@ class DoclingFileHandlerSkill {
   }
   async fileHandler({ file }) {
     const ext = path.extname(file.filename.toLowerCase()).slice(1);
-    console.log("file handler",{
-      incl: ["docx", "html", "pptx"].includes(ext),
-      ext, 
-      thisext: this[ext],
-      this: this
-    });
     
     if (["docx", "html", "pptx"].includes(ext) && this[ext]) {
       const raw_out = await run_docling(file.location);
