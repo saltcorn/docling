@@ -89,6 +89,9 @@ module.exports = {
     htmlToText,
     turndown_html_to_markdown,
   }),
+  exchange: {
+    agent_skills: [require("./agent-skill.js")],
+  },
   actions: () => ({
     docling_to_markdown: {
       requireRow: true,
@@ -118,7 +121,7 @@ module.exports = {
             .map((f) => f.name);
           const mdFields = table.fields
             .filter(
-              (f) => f.type?.name === "String" || f.type?.name === "Markdown"
+              (f) => f.type?.name === "String" || f.type?.name === "Markdown",
             )
             .map((f) => f.name);
 
@@ -155,7 +158,7 @@ module.exports = {
             filepath,
             row,
             user,
-            "get_embedding text formula"
+            "get_embedding text formula",
           );
           file = await File.findOne(fp);
         } else file = await File.findOne(row[file_field]);
