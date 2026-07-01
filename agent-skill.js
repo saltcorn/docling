@@ -11,7 +11,7 @@ const { eval_expression } = require("@saltcorn/data/models/expression");
 const { interpolate } = require("@saltcorn/data/utils");
 const { features } = require("@saltcorn/data/db/state");
 const { run_docling } = require("./cmds");
-
+const path = require("path");
 //const { fieldProperties } = require("./helpers");
 
 class DoclingFileHandlerSkill {
@@ -28,43 +28,35 @@ class DoclingFileHandlerSkill {
   static async configFields() {
     return [
       {
-        name: "mode",
-        label: "Mode",
-        type: "String",
-        required: true,
-        attributes: {
-          options: features.nested_fieldrepeats
-            ? ["Preload into system prompt", "Tool"]
-            : ["Preload into system prompt"],
-        },
+        name: "docx",
+        label: ".docx",
+        type: "Bool",
+        default: true,
       },
       {
-        name: "tool_name",
-        label: "Tool name",
-        type: "String",
-        showIf: { mode: "Tool" },
-        class: "validate-identifier",
+        name: "pptx",
+        label: ".pptx",
+        type: "Bool",
+        default: true,
       },
       {
-        name: "tool_description",
-        label: "Tool description",
-        type: "String",
-        showIf: { mode: "Tool" },
-      },
-
-      {
-        name: "sql",
-        label: "SQL",
-        input_type: "code",
-        attributes: { mode: "text/x-sql" },
-        sublabel:
-          "Refer to query parameters with <code>$1</code>, <code>$2</code> etc",
+        name: "html",
+        label: ".html",
+        type: "Bool",
+        default: true,
       },
     ];
   }
-  async fileHandler(file) {
-    const fnm_lc = file.filename.toLowerCase();
-    if (fnm_lc.endsWith("docx")) {
+  async fileHandler({ file }) {
+    const ext = path.extname(file.filename.toLowerCase()).slice(1);
+    console.log("file handler",{
+      incl: ["docx", "html", "pptx"].includes(ext),
+      ext, 
+      thisext: this[ext],
+      this: this
+    });
+    
+    if (["docx", "html", "pptx"].includes(ext) && this[ext]) {
       const raw_out = await run_docling(file.location);
       const md = raw_out.split("---saltcorn-docling-markdown-below---\n")[1];
       return md;

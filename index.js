@@ -89,9 +89,9 @@ module.exports = {
     htmlToText,
     turndown_html_to_markdown,
   }),
-  exchange: {
+  exchange:()=> ({
     agent_skills: [require("./agent-skill.js")],
-  },
+  }),
   actions: () => ({
     docling_to_markdown: {
       requireRow: true,
