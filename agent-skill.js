@@ -14,6 +14,19 @@ const { run_docling } = require("./cmds");
 const path = require("path");
 //const { fieldProperties } = require("./helpers");
 
+const formats = [
+  "docx",
+  "html",
+  "pptx",
+  "xlsx",
+  "epub",
+  "odt",
+  "ods",
+  "odp",
+  "csv",
+  "pdf",
+];
+
 class DoclingFileHandlerSkill {
   static skill_name = "Docling file handler";
 
@@ -26,31 +39,17 @@ class DoclingFileHandlerSkill {
   }
 
   static async configFields() {
-    return [
-      {
-        name: "docx",
-        label: ".docx",
-        type: "Bool",
-        default: true,
-      },
-      {
-        name: "pptx",
-        label: ".pptx",
-        type: "Bool",
-        default: true,
-      },
-      {
-        name: "html",
-        label: ".html",
-        type: "Bool",
-        default: true,
-      },
-    ];
+    return formats.map((format) => ({
+      name: format,
+      label: "." + format,
+      type: "Bool",
+      default: true,
+    }));
   }
   async fileHandler({ file }) {
     const ext = path.extname(file.filename.toLowerCase()).slice(1);
-    
-    if (["docx", "html", "pptx"].includes(ext) && this[ext]) {
+
+    if (formats.includes(ext) && this[ext]) {
       const raw_out = await run_docling(file.location);
       const md = raw_out.split("---saltcorn-docling-markdown-below---\n")[1];
       return md;
