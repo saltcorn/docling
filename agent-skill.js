@@ -23,7 +23,6 @@ const formats = [
   "odt",
   "ods",
   "odp",
-  "csv",
   "pdf",
 ];
 
